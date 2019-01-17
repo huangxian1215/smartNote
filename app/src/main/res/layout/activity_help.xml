@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_help"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/katoon_bg"
+            android:gravity="left"
+            android:textColor="#ff5500"
+            android:text="smartNote 顾名思义灵性记事本，只要你有灵性，这款工具就很适合你^_^\n特点：\n
+1.能够像Excel一样管理自己的笔记，指尖操作非常方便，增删改运用自如;\n
+2.比较安全，密码键入保护个人隐私，同时拥有节拍解锁功能，让解锁更加快捷;\n
+3.数据共享，可以导出Excel表到根目录/hxdesign，备份到自己的网盘，妈妈再也不担心我丢东西了;\n
+\n
+以下是smartNote工具的出发点，希望可以帮助到大家使用该工具\n
+1> 添加主题  主题命名《记不住的账号密码》;\n
+2> 点击增加两条，标题分别拟定为“产品”、“账号”、“密码”，值都用文字,点击确认;\n
+3> 进入主题，点击编辑，写下自己的东西。\n
+\n
+效果如下：\n
+时序      产品          账号          密码\n
+1           QQ      123456789       111111\n
+2           smartNote       ---       perfer\n
+\n
+自学android studio两周的第一个成果，大神莫吐槽，互动请邮件至：hihuangxian@163.com\n
+工具获取链接: https://pan.baidu.com/s/1TUg-zpNou2SHu4kiDu4PFw 提取码: mq9g\n
+点击屏幕复制链接
+"
+            android:textSize="17sp" />
+    </ScrollView>
+
+</LinearLayout>
