@@ -29,6 +29,8 @@ import com.hxdesign.smartnote.help.SmartNoteHelp;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginActivity extends AppCompatActivity implements OnClickListener{
     private SharedPreferences mShared;
@@ -71,10 +73,25 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
         //初始化指纹设备
         initFingerprintCore();
+
+
+        //startFingerprintCore();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startFingerprintCore();
+            }
+        }, 500);//0.5秒后执行TimeTask的run方法
     }
+
     private void initFingerprintCore() {
         mFingerprintCore = new FingerprintCore(this);
         mFingerprintCore.setFingerprintManager(mResultListener);
+
+    }
+
+    private void startFingerprintCore(){
         //开始识别
         if (mFingerprintCore.isSupport()) {
             if (!mFingerprintCore.isHasEnrolledFingerprints()) {
@@ -94,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         public void onAuthenticateSuccess() {
             Toast.makeText(LoginActivity.this, "验证成功", Toast.LENGTH_SHORT).show();
             login();
+            mFingerprintCore.onDestroy();
             finish();
         }
 

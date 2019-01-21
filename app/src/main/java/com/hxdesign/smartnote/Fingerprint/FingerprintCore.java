@@ -203,7 +203,9 @@ public class FingerprintCore {
     private Runnable mFailedRetryRunnable = new Runnable() {
         @Override
         public void run() {
-            startAuthenticate(mCryptoObjectCreator.getCryptoObject());
+            if (mCryptoObjectCreator != null) {
+                startAuthenticate(mCryptoObjectCreator.getCryptoObject());
+            }
         }
     };
 
