@@ -1,7 +1,18 @@
 package com.hxdesign.smartnote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.biometrics.BiometricPrompt;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
+import android.os.CancellationSignal;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,6 +22,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hxdesign.smartnote.Fingerprint.FingerprintCore;
+import com.hxdesign.smartnote.Fingerprint.FingerprintUtil;
 import com.hxdesign.smartnote.dialog.KeyIn;
 import com.hxdesign.smartnote.help.SmartNoteHelp;
 
@@ -30,6 +43,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     private ArrayList<Long> timeBetween;
     private int inputType = 0;//0输入密码，1修改密码验证，2输入新密码，3输入新密码验证
     private String password = "";
+
+    private FingerprintCore mFingerprintCore;
     //消息ID
     private static final int KEYIN_REQUESTCODE = 1;//添加
     private static final int KEYIN_RESULTCODE = 1;
@@ -53,7 +68,50 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
         //设置初始密码
         initPassword();
+
+        //初始化指纹设备
+        initFingerprintCore();
     }
+    private void initFingerprintCore() {
+        mFingerprintCore = new FingerprintCore(this);
+        mFingerprintCore.setFingerprintManager(mResultListener);
+        //开始识别
+        if (mFingerprintCore.isSupport()) {
+            if (!mFingerprintCore.isHasEnrolledFingerprints()) {
+                FingerprintUtil.openFingerPrintSettingPage(this);
+                return;
+            }
+            if (mFingerprintCore.isAuthenticating()) {
+            } else {
+                mFingerprintCore.startAuthenticate();
+            }
+        } else {
+        }
+    }
+
+    private FingerprintCore.IFingerprintResultListener mResultListener = new FingerprintCore.IFingerprintResultListener() {
+        @Override
+        public void onAuthenticateSuccess() {
+            Toast.makeText(LoginActivity.this, "验证成功", Toast.LENGTH_SHORT).show();
+            login();
+            finish();
+        }
+
+        @Override
+        public void onAuthenticateFailed(int helpId) {
+
+        }
+
+        @Override
+        public void onAuthenticateError(int errMsgId) {
+
+        }
+
+        @Override
+        public void onStartAuthenticateResult(boolean isSuccess) {
+
+        }
+    };
 
     private void initDate() {
         keys = new ArrayList<Long>();
